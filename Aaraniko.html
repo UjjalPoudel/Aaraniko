@@ -1,0 +1,2286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aaraniko Coffee — Coffee. People. Lifestyle.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+  :root {
+    --ink:     #0d0b09;
+    --ink2:    #1e1a16;
+    --ink3:    #2e2820;
+    --sand:    #f0ebe0;
+    --sand2:   #e8e0d0;
+    --gold:    #c8a84b;
+    --gold2:   #e2c46a;
+    --gold3:   #f5e09a;
+    --copper:  #9b6a3e;
+    --cream:   #faf7f1;
+    --white:   #ffffff;
+    --gray:    #6b6155;
+    --gray2:   #9e9487;
+    --r-sm:    12px;
+    --r-md:    20px;
+    --r-lg:    32px;
+    --r-xl:    48px;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body:    'DM Sans', sans-serif;
+    --font-mono:    'Space Mono', monospace;
+    --ease-out:     cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--ink); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+  /* ─── SELECTION ─── */
+  ::selection { background: var(--gold); color: var(--ink); }
+
+  /* ─── CURSOR CUSTOM DOT ─── */
+  .cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, background 0.3s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(200,168,75,0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s var(--ease-out);
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .t-display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ─── LAYOUT ─── */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 900;
+    padding: 1.5rem 0;
+    transition: all 0.5s var(--ease-out);
+  }
+  nav.scrolled {
+    background: rgba(13,11,9,0.94);
+    backdrop-filter: blur(24px) saturate(150%);
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(200,168,75,0.12);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 0.9rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nav-logo-img {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(200,168,75,0.7);
+    box-shadow: 0 0 0 5px rgba(200,168,75,0.12), 0 4px 16px rgba(0,0,0,0.3);
+    transition: all 0.3s var(--ease-spring);
+  }
+  .nav-logo:hover .nav-logo-img {
+    border-color: var(--gold2);
+    box-shadow: 0 0 0 6px rgba(200,168,75,0.15), 0 8px 24px rgba(200,168,75,0.25);
+    transform: scale(1.06);
+  }
+  .nav-logo-text {
+    display: flex; flex-direction: column;
+    line-height: 1.2;
+  }
+  .nav-logo-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem; font-weight: 600;
+    color: white;
+    letter-spacing: 0.01em;
+  }
+  .nav-logo-sub {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .nav-links {
+    display: flex; align-items: center; gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.8rem; font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.35s var(--ease-out);
+  }
+  .nav-links a:hover { color: var(--gold2); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--ink) !important;
+    padding: 0.65rem 1.6rem;
+    border-radius: 999px;
+    font-weight: 600 !important;
+    transition: all 0.3s var(--ease-spring) !important;
+    box-shadow: 0 4px 20px rgba(200,168,75,0.35);
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover {
+    background: var(--gold2) !important;
+    transform: translateY(-2px) scale(1.03) !important;
+    box-shadow: 0 8px 28px rgba(200,168,75,0.5) !important;
+    color: var(--ink) !important;
+  }
+  .hamburger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    background: none; border: none;
+    cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s var(--ease-out);
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%; left: 0; right: 0;
+    background: rgba(13,11,9,0.98);
+    backdrop-filter: blur(24px);
+    border-top: 1px solid rgba(200,168,75,0.15);
+    padding: 2rem clamp(1.5rem, 5vw, 4rem);
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-menu a {
+    display: block;
+    padding: 0.85rem 0;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: color 0.3s, padding-left 0.3s;
+  }
+  .mobile-menu a:hover { color: var(--gold); padding-left: 0.5rem; }
+
+  /* ─── HERO ─── */
+  #hero {
+    height: 100svh; min-height: 700px;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .hero-slides {
+    position: absolute; inset: 0;
+  }
+  .hero-slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity 1.4s var(--ease-out);
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.45) saturate(0.85);
+    transition: transform 8s linear;
+  }
+  .hero-slide.active img { transform: scale(1.08); }
+
+  /* Radial vignette */
+  .hero-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, transparent 30%, rgba(13,11,9,0.7) 100%);
+    z-index: 2;
+  }
+  .hero-grain {
+    position: absolute; inset: 0; z-index: 3;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: absolute; inset: 0; z-index: 20;
+    display: flex; align-items: flex-end;
+    padding-bottom: clamp(5rem, 12vh, 10rem);
+  }
+  .hero-content .container {
+    width: 100%;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: flex-end;
+    gap: 3rem;
+  }
+  .hero-left { display: flex; flex-direction: column; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: rgba(200,168,75,0.12);
+    border: 1px solid rgba(200,168,75,0.35);
+    color: var(--gold2);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    margin-bottom: 1.8rem;
+    backdrop-filter: blur(8px);
+  }
+  .hero-tag i { font-size: 0.55rem; }
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7.5vw, 6.5rem);
+    font-weight: 300;
+    line-height: 0.9;
+    color: white;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--gold2);
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 0.95rem 2.2rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: all 0.35s var(--ease-spring);
+    box-shadow: 0 6px 28px rgba(200,168,75,0.4);
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(200,168,75,0.55);
+    background: var(--gold2);
+  }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem; font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.95rem 2.2rem;
+    border-radius: 999px;
+    transition: all 0.3s var(--ease-out);
+    backdrop-filter: blur(8px);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Hero Right — vertical stats */
+  .hero-right {
+    display: flex; flex-direction: column;
+    align-items: flex-end; gap: 2.5rem;
+  }
+  .hero-stat {
+    text-align: right;
+    position: relative;
+  }
+  .hero-stat::before {
+    content: '';
+    position: absolute; right: 0; top: 50%;
+    width: 2px; height: 60%;
+    background: var(--gold);
+    transform: translateY(-50%);
+    right: -1.2rem;
+    opacity: 0.5;
+  }
+  .hero-stat-num {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .hero-stat-label {
+    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* Hero progress + dots */
+  .hero-bottom {
+    position: absolute;
+    bottom: 2rem; left: 0; right: 0;
+    z-index: 15;
+  }
+  .hero-bottom .container {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .slide-dots {
+    display: flex; gap: 0.6rem; align-items: center;
+  }
+  .slide-dot {
+    width: 6px; height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.3);
+    border: none; cursor: pointer;
+    transition: all 0.4s var(--ease-spring);
+    padding: 0;
+  }
+  .slide-dot:hover { background: rgba(255,255,255,0.6); transform: scale(1.3); }
+  .slide-dot.active {
+    background: var(--gold);
+    width: 28px;
+    box-shadow: 0 0 10px rgba(200,168,75,0.6);
+  }
+  .hero-scroll-hint {
+    display: flex; align-items: center; gap: 0.6rem;
+    color: rgba(255,255,255,0.4);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .hero-scroll-hint:hover { color: var(--gold); }
+  .hero-scroll-hint .scroll-line {
+    width: 40px; height: 1px;
+    background: currentColor;
+    position: relative; overflow: hidden;
+  }
+  .hero-scroll-hint .scroll-line::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--gold);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* Hero arrow nav */
+  .hero-arrows {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    left: 0; right: 0;
+    z-index: 15;
+    display: flex; justify-content: space-between;
+    padding: 0 1.5rem;
+    pointer-events: none;
+  }
+  .hero-arrow {
+    pointer-events: all;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(13,11,9,0.35);
+    backdrop-filter: blur(12px);
+    color: white;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s var(--ease-spring);
+    font-size: 0.8rem;
+  }
+  .hero-arrow:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    transform: scale(1.15);
+    box-shadow: 0 8px 30px rgba(200,168,75,0.5);
+    color: var(--ink);
+  }
+
+  /* ─── TICKER BAND ─── */
+  .ticker-band {
+    background: var(--gold);
+    padding: 0.7rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-track {
+    display: flex;
+    animation: tickerScroll 25s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-item {
+    display: inline-flex; align-items: center; gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 0 2.5rem;
+    flex-shrink: 0;
+  }
+  .ticker-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--ink);
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+  @keyframes tickerScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── SECTION HELPERS ─── */
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em { font-style: italic; color: var(--copper); }
+  .section-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--gray);
+  }
+
+  /* Reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── ABOUT ─── */
+  #about {
+    padding: clamp(5rem, 12vw, 9rem) 0;
+    background: var(--white);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .about-img-wrap {
+    position: relative;
+  }
+  .about-img-frame {
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    position: relative;
+  }
+  .about-img-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s var(--ease-out);
+  }
+  .about-img-frame:hover img { transform: scale(1.04); }
+  /* floating accent card */
+  .about-accent {
+    position: absolute;
+    bottom: -2.5rem; right: -2.5rem;
+    background: var(--ink2);
+    color: white;
+    padding: 2rem 2.2rem;
+    border-radius: var(--r-lg);
+    box-shadow: 0 20px 60px rgba(13,11,9,0.3);
+    min-width: 160px;
+  }
+  .about-accent-num {
+    font-family: var(--font-display);
+    font-size: 3.5rem; font-weight: 700;
+    line-height: 1;
+    color: var(--gold2);
+  }
+  .about-accent-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.4rem;
+  }
+  .about-img-dot {
+    position: absolute;
+    top: 2rem; left: -1.5rem;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,168,75,0.35);
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(200,168,75,0.07);
+  }
+  .about-img-dot i { color: var(--gold); font-size: 1.5rem; }
+
+  .about-stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  .about-stat-box {
+    background: var(--sand);
+    border-radius: var(--r-md);
+    padding: 1.5rem;
+    border: 1px solid rgba(200,168,75,0.15);
+    transition: all 0.3s var(--ease-spring);
+  }
+  .about-stat-box:hover {
+    border-color: rgba(200,168,75,0.4);
+    box-shadow: 0 8px 30px rgba(200,168,75,0.12);
+    transform: translateY(-4px);
+  }
+  .about-stat-box .num {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .about-stat-box .lbl {
+    font-size: 0.82rem;
+    color: var(--gray2);
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+  .about-stat-box i {
+    font-size: 1.3rem;
+    color: var(--gold);
+    margin-bottom: 0.7rem;
+  }
+
+  /* ─── MENU / COFFEE ─── */
+  #coffee {
+    padding: clamp(5rem, 12vw, 9rem) 0;
+    background: var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  #coffee::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1920&q=40");
+    background-size: cover; background-position: center;
+    opacity: 0.06;
+  }
+  #coffee .section-title { color: white; }
+  #coffee .section-body { color: rgba(255,255,255,0.55); }
+  #coffee .section-label { color: var(--gold); }
+  #coffee .section-label::before { background: var(--gold); }
+
+  .menu-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .menu-filter-tabs {
+    display: flex; gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .filter-tab {
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s var(--ease-out);
+  }
+  .filter-tab:hover { border-color: rgba(200,168,75,0.4); color: var(--gold); }
+  .filter-tab.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--ink);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .menu-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    transition: all 0.4s var(--ease-out);
+    cursor: pointer;
+    /* group: card; — removed non-standard property */
+  }
+  .menu-card:hover {
+    border-color: rgba(200,168,75,0.3);
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+  }
+  .menu-card-img {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+  }
+  .menu-card-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) saturate(0.9);
+    transition: all 0.6s var(--ease-out);
+  }
+  .menu-card:hover .menu-card-img img {
+    transform: scale(1.07);
+    filter: brightness(0.9) saturate(1.1);
+  }
+  .menu-card-badge {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .menu-card-overlay {
+    position: absolute; inset: 0;
+    background: rgba(13,11,9,0.75);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    transition: opacity 0.35s var(--ease-out);
+    backdrop-filter: blur(4px);
+    gap: 1rem;
+    flex-direction: column;
+  }
+  .menu-card:hover .menu-card-overlay { opacity: 1; }
+  .overlay-btn {
+    background: var(--gold);
+    color: var(--ink);
+    padding: 0.65rem 1.8rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: none; cursor: pointer;
+    transition: all 0.3s var(--ease-spring);
+    letter-spacing: 0.04em;
+  }
+  .overlay-btn:hover { background: var(--gold2); transform: scale(1.05); }
+  .menu-card-body {
+    padding: 1.5rem;
+  }
+  .menu-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.7rem;
+  }
+  .menu-card-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .menu-card-price {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold2);
+    white-space: nowrap;
+  }
+  .menu-card-desc {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .menu-card-meta {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+  .menu-card-meta i { color: var(--gold); }
+
+  /* ─── LOCATION ─── */
+  #locations {
+    padding: clamp(5rem, 12vw, 9rem) 0;
+    background: var(--sand);
+  }
+  .location-card {
+    background: var(--white);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(13,11,9,0.08);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid rgba(200,168,75,0.1);
+    transition: box-shadow 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+  }
+  .location-card:hover {
+    box-shadow: 0 40px 100px rgba(13,11,9,0.15);
+    transform: translateY(-6px);
+  }
+  .location-img-pane {
+    position: relative;
+    min-height: 500px;
+  }
+  .location-img-pane img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-out);
+  }
+  .location-card:hover .location-img-pane img { transform: scale(1.04); }
+  .location-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, transparent 50%, var(--white) 100%);
+  }
+  .location-img-badge {
+    position: absolute; top: 1.5rem; left: 1.5rem;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 0.5rem 1.2rem;
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .location-info-pane {
+    padding: clamp(2.5rem, 5vw, 4rem);
+    display: flex; flex-direction: column;
+    justify-content: center;
+  }
+  .loc-name {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 1rem 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .loc-sub { color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 2rem; }
+  .loc-details { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 2.5rem; }
+  .loc-row {
+    display: flex; align-items: flex-start; gap: 1rem;
+  }
+  .loc-icon {
+    width: 40px; height: 40px;
+    background: var(--sand);
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(200,168,75,0.15);
+  }
+  .loc-icon i { color: var(--gold); font-size: 0.9rem; }
+  .loc-row-label {
+    font-size: 0.72rem; font-weight: 700;
+    color: var(--gray2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem;
+  }
+  .loc-row-val { font-size: 0.95rem; color: var(--ink); font-weight: 500; line-height: 1.5; }
+  .loc-row-val a { color: inherit; text-decoration: none; transition: color 0.2s; }
+  .loc-row-val a:hover { color: var(--copper); }
+  .loc-cta-row { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+  .btn-solid {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--ink);
+    color: white;
+    padding: 0.85rem 1.8rem;
+    border-radius: var(--r-md);
+    font-weight: 600; font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: all 0.3s var(--ease-spring);
+  }
+  .btn-solid:hover {
+    background: var(--ink2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(13,11,9,0.25);
+    color: white;
+  }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    padding: 0.85rem 1.8rem;
+    border-radius: var(--r-md);
+    font-weight: 600; font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer; background: transparent;
+    transition: all 0.3s var(--ease-out);
+  }
+  .btn-outline:hover {
+    background: var(--ink);
+    color: white;
+    transform: translateY(-2px);
+  }
+  .map-wrap {
+    grid-column: 1 / -1;
+    height: 300px;
+    border-top: 1px solid var(--sand2);
+    border-radius: 0 0 var(--r-xl) var(--r-xl);
+    overflow: hidden;
+  }
+  .map-wrap iframe { width: 100%; height: 100%; border: none; filter: grayscale(20%); }
+
+  /* ─── TRAINING ─── */
+  #training {
+    padding: clamp(5rem, 12vw, 9rem) 0;
+    background: var(--cream);
+    position: relative;
+  }
+  .training-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+  .training-card {
+    background: var(--white);
+    border-radius: var(--r-lg);
+    padding: 2.5rem;
+    border: 1px solid transparent;
+    transition: all 0.4s var(--ease-out);
+    position: relative;
+    overflow: hidden;
+  }
+  .training-card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--copper));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease-out);
+  }
+  .training-card:hover {
+    border-color: rgba(200,168,75,0.2);
+    box-shadow: 0 20px 60px rgba(13,11,9,0.08);
+    transform: translateY(-8px);
+  }
+  .training-card:hover::after { transform: scaleX(1); }
+  .training-icon {
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, var(--gold), var(--copper));
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.8rem;
+    transition: transform 0.4s var(--ease-spring);
+  }
+  .training-card:hover .training-icon { transform: scale(1.1) rotate(-3deg); }
+  .training-icon i { color: white; font-size: 1.4rem; }
+  .training-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem; font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .training-desc {
+    font-size: 0.95rem; color: var(--gray);
+    line-height: 1.7; margin-bottom: 1.5rem;
+  }
+  .training-features { list-style: none; margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .training-features li {
+    display: flex; align-items: center; gap: 0.7rem;
+    font-size: 0.88rem; color: var(--gray);
+  }
+  .training-features li i { color: var(--gold); font-size: 0.7rem; }
+  .training-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--copper); font-weight: 600; font-size: 0.88rem;
+    text-decoration: none;
+    transition: gap 0.3s var(--ease-spring);
+    cursor: pointer; background: none; border: none;
+  }
+  .training-link:hover { gap: 0.9rem; }
+
+  /* ─── CAREERS ─── */
+  #careers {
+    padding: clamp(5rem, 12vw, 9rem) 0;
+    background: var(--ink2);
+    position: relative;
+    overflow: hidden;
+  }
+  #careers::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1920&q=40");
+    background-size: cover; background-position: center;
+    opacity: 0.08;
+  }
+  .careers-inner {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+  }
+  #careers .section-title { color: white; }
+  #careers .section-label { color: var(--gold); }
+  #careers .section-label::before { background: var(--gold); }
+  .careers-body { color: rgba(255,255,255,0.6); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2.5rem; }
+  .careers-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .roles-list {
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .role-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--r-md);
+    padding: 1.2rem 1.5rem;
+    transition: all 0.3s var(--ease-out);
+    cursor: pointer;
+  }
+  .role-item:hover {
+    background: rgba(200,168,75,0.07);
+    border-color: rgba(200,168,75,0.25);
+    transform: translateX(6px);
+  }
+  .role-name {
+    font-weight: 600; color: white; font-size: 0.95rem;
+  }
+  .role-dept {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-top: 0.2rem;
+  }
+  .role-badge {
+    background: rgba(200,168,75,0.12);
+    border: 1px solid rgba(200,168,75,0.3);
+    color: var(--gold2);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+  }
+  .role-arrow { color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-left: 0.7rem; transition: all 0.3s; }
+  .role-item:hover .role-arrow { color: var(--gold); transform: translateX(4px); }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    padding: clamp(5rem, 12vw, 9rem) 0;
+    background: var(--cream);
+    position: relative;
+  }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1.1fr;
+    gap: 5rem; align-items: start;
+  }
+  .contact-info-title {
+    font-family: var(--font-display);
+    font-size: 2rem; font-weight: 300; letter-spacing: -0.02em;
+    color: var(--ink); margin-bottom: 0.3rem;
+  }
+  .contact-info-em { font-style: italic; color: var(--copper); font-size: 2rem; }
+  .contact-info-body { font-size: 1rem; color: var(--gray); line-height: 1.7; margin: 1.5rem 0 2.5rem; }
+  .contact-items { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .contact-icon {
+    width: 44px; height: 44px;
+    background: var(--sand);
+    border-radius: var(--r-sm);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(200,168,75,0.15);
+  }
+  .contact-icon i { color: var(--gold); font-size: 0.95rem; }
+  .contact-item-label { font-size: 0.72rem; font-weight: 700; color: var(--gray2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+  .contact-item-val { font-size: 1rem; color: var(--ink); font-weight: 500; }
+  .contact-item-val a { color: inherit; text-decoration: none; }
+  .contact-item-val a:hover { color: var(--copper); }
+  .socials { display: flex; gap: 0.7rem; }
+  .social-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s var(--ease-spring);
+  }
+  .social-btn:hover {
+    background: var(--gold);
+    color: var(--ink);
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(200,168,75,0.4);
+  }
+
+  /* Contact Form */
+  .contact-form-wrap {
+    background: var(--white);
+    border-radius: var(--r-xl);
+    padding: clamp(2.5rem, 5vw, 3.5rem);
+    box-shadow: 0 20px 60px rgba(13,11,9,0.07);
+    border: 1px solid rgba(200,168,75,0.1);
+  }
+  .form-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem; font-weight: 600;
+    color: var(--ink); margin-bottom: 2rem;
+    letter-spacing: -0.02em;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group label {
+    font-size: 0.72rem; font-weight: 700;
+    color: var(--gray2); text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.85rem 1.1rem;
+    border: 1.5px solid rgba(13,11,9,0.12);
+    border-radius: var(--r-sm);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--cream);
+    outline: none;
+    transition: all 0.25s var(--ease-out);
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--gold);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(200,168,75,0.12);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    width: 100%;
+    padding: 1.05rem;
+    background: var(--ink);
+    color: white;
+    border: none; cursor: pointer;
+    border-radius: var(--r-md);
+    font-family: var(--font-body);
+    font-size: 1rem; font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all 0.35s var(--ease-spring);
+    display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+    margin-top: 1.5rem;
+    position: relative; overflow: hidden;
+  }
+  .form-submit::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--gold), var(--copper));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .form-submit:hover::before { opacity: 1; }
+  .form-submit span { position: relative; z-index: 1; }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(13,11,9,0.25); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    color: white;
+    padding: 5rem 0 2.5rem;
+    border-top: 1px solid rgba(200,168,75,0.12);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 3.5rem;
+    margin-bottom: 4rem;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1.2rem; }
+  .footer-brand-img {
+    width: 56px; height: 56px;
+    border-radius: 50%; object-fit: cover;
+    border: 2px solid rgba(200,168,75,0.5);
+    padding: 2px;
+    background: rgba(200,168,75,0.05);
+  }
+  .footer-brand-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: white; }
+  .footer-brand-sub { font-family: var(--font-mono); font-size: 0.6rem; color: var(--gold); letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.8; }
+  .footer-desc { font-size: 0.9rem; color: rgba(255,255,255,0.4); line-height: 1.7; margin-bottom: 1.5rem; }
+  .footer-col-title {
+    font-family: var(--font-mono); font-size: 0.68rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .footer-links a {
+    color: rgba(255,255,255,0.45); font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-flex; align-items: center; gap: 0.4rem;
+  }
+  .footer-links a:hover { color: var(--gold2); padding-left: 4px; }
+  .footer-newsletter input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--r-sm);
+    padding: 0.8rem 1rem;
+    color: white; font-size: 0.9rem;
+    outline: none; margin-bottom: 0.8rem;
+    font-family: var(--font-body);
+    transition: all 0.25s;
+  }
+  .footer-newsletter input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,168,75,0.1); }
+  .footer-newsletter input::placeholder { color: rgba(255,255,255,0.25); }
+  .footer-newsletter button {
+    width: 100%;
+    background: var(--gold);
+    color: var(--ink);
+    border: none; cursor: pointer;
+    padding: 0.8rem;
+    border-radius: var(--r-sm);
+    font-weight: 600; font-size: 0.88rem;
+    font-family: var(--font-body);
+    transition: all 0.3s var(--ease-spring);
+    letter-spacing: 0.04em;
+  }
+  .footer-newsletter button:hover { background: var(--gold2); transform: translateY(-2px); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-copy { font-size: 0.82rem; color: rgba(255,255,255,0.3); }
+  .footer-legal { display: flex; gap: 1.5rem; }
+  .footer-legal a { font-size: 0.82rem; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.3s; }
+  .footer-legal a:hover { color: var(--gold); }
+
+  /* ─── BACK TO TOP ─── */
+  .back-to-top {
+    position: fixed; bottom: 2rem; right: 2rem;
+    width: 46px; height: 46px;
+    background: var(--gold);
+    border: none; cursor: pointer;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font-size: 0.85rem;
+    box-shadow: 0 6px 20px rgba(200,168,75,0.4);
+    transition: all 0.3s var(--ease-spring);
+    opacity: 0; pointer-events: none;
+    z-index: 500;
+  }
+  .back-to-top.visible { opacity: 1; pointer-events: all; }
+  .back-to-top:hover { transform: translateY(-4px) scale(1.1); box-shadow: 0 10px 30px rgba(200,168,75,0.5); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .about-grid { grid-template-columns: 1fr; gap: 4rem; }
+    .about-img-wrap { max-width: 550px; margin: 0 auto; }
+    .about-img-frame { aspect-ratio: 16/9; }
+    .about-accent { bottom: -1.5rem; right: -1rem; }
+    .location-card { grid-template-columns: 1fr; }
+    .location-img-pane { min-height: 300px; }
+    .location-img-overlay { background: linear-gradient(to bottom, transparent 50%, var(--white) 100%); }
+    .careers-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .training-grid { grid-template-columns: 1fr 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-headline { font-size: clamp(2.4rem, 10vw, 4rem); }
+    .menu-grid { grid-template-columns: 1fr; }
+    .training-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-accent { display: none; }
+  }
+  @media (max-width: 480px) {
+    .hero-actions { flex-direction: column; }
+    .btn-primary, .btn-ghost { width: 100%; justify-content: center; }
+    .loc-cta-row { flex-direction: column; }
+    .btn-solid, .btn-outline { width: 100%; justify-content: center; }
+    .hero-content { padding-bottom: 7rem; }
+    .hero-tag { font-size: 0.6rem; padding: 0.4rem 0.8rem; }
+    .hero-sub { font-size: 0.95rem; }
+    .form-row { gap: 0.9rem; }
+    .loc-cta-row .btn-solid,
+    .loc-cta-row .btn-outline { width: 100%; justify-content: center; }
+  }
+
+  /* ─── SCROLL MARGIN — ensures sticky nav doesn't hide section headings ─── */
+  #about, #coffee, #locations, #training, #careers, #contact {
+    scroll-margin-top: 80px;
+  }
+
+  /* ─── MISSING KEYFRAME (used by menu filter JS) ─── */
+  @keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* ─── WHATSAPP BUTTON ─── */
+  .whatsapp-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: #25D366; color: white;
+    padding: 0.85rem 1.8rem;
+    border-radius: var(--r-md);
+    font-weight: 600; font-size: 0.88rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: all 0.3s var(--ease-spring);
+    border: none; cursor: pointer;
+  }
+  .whatsapp-btn:hover {
+    background: #20c45e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37,211,102,0.35);
+    color: white;
+  }
+
+  /* ─── FLOATING WHATSAPP BADGE ─── */
+  .whatsapp-float {
+    position: fixed; bottom: 5.5rem; right: 2rem;
+    width: 46px; height: 46px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.2rem;
+    box-shadow: 0 6px 20px rgba(37,211,102,0.45);
+    z-index: 500;
+    transition: all 0.3s var(--ease-spring);
+    text-decoration: none;
+  }
+  .whatsapp-float:hover {
+    transform: translateY(-4px) scale(1.12);
+    box-shadow: 0 10px 30px rgba(37,211,102,0.55);
+    color: white;
+  }
+
+  /* ─── COUNTER ANIMATION ─── */
+  .count-num {
+    display: inline-block;
+    transition: transform 0.3s var(--ease-spring);
+  }
+
+  /* ─── IMPROVED MOBILE NAV BRAND TEXT ─── */
+  @media (max-width: 360px) {
+    .nav-logo-name { font-size: 0.95rem; }
+    .footer-grid { gap: 2rem; }
+    .training-card { padding: 2rem 1.5rem; }
+  }
+
+  /* ─── WORD BREAK FOR EMAIL LINKS ─── */
+  .contact-item-val a[href^="mailto"] { word-break: break-all; }
+
+  /* ─── BETTER FOCUS RINGS ─── */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ─── PREFERS REDUCED MOTION ─── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.15ms !important;
+    }
+    .ticker-track { animation: none; }
+    .hero-slide img { transition: none; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo">
+      <img src="logo/656953800_1245859107528001_7635500547030688865_n.jpg" alt="New Araniko Resort" class="nav-logo-img">
+      <div class="nav-logo-text" style="display:none;" id="navBrandText">
+        <span class="nav-logo-name">New Araniko</span>
+        <span class="nav-logo-sub">Resort &amp; Coffee</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#locations">Locations</a></li>
+      <li><a href="#coffee">Menu</a></li>
+      <li><a href="#training">Training</a></li>
+      <li><a href="#careers">Careers</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#locations">Locations</a>
+    <a href="#coffee">Menu</a>
+    <a href="#training">Training</a>
+    <a href="#careers">Careers</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-slides">
+    <div class="hero-slide active">
+      <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=1920&q=85" alt="Coffee Shop">
+    </div>
+    <div class="hero-slide">
+      <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&q=85" alt="Coffee Pouring">
+    </div>
+    <div class="hero-slide">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1920&q=85" alt="Coffee Beans">
+    </div>
+  </div>
+  <div class="hero-vignette"></div>
+  <div class="hero-grain"></div>
+
+  <!-- Arrow nav -->
+  <div class="hero-arrows">
+    <button class="hero-arrow" id="heroPrev" aria-label="Previous">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="hero-arrow" id="heroNext" aria-label="Next">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Main content -->
+  <div class="hero-content">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="hero-tag">
+            <i class="fas fa-mountain"></i>
+            Est. 2017 &nbsp;·&nbsp; Sindhupalchowk, Nepal
+          </div>
+          <h1 class="hero-headline">
+            Crafted with<br><em>Passion,</em><br>Served with Pride.
+          </h1>
+          <p class="hero-sub">
+            Nepal's finest specialty coffee experience — sourced from the highlands, perfected by our craft, and shared with you daily from 6 AM.
+          </p>
+          <div class="hero-actions">
+            <a href="#coffee" class="btn-primary">
+              <i class="fas fa-mug-hot"></i>
+              Explore Menu
+            </a>
+            <a href="#locations" class="btn-ghost">
+              <i class="fas fa-map-marker-alt"></i>
+              Find Us
+            </a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-stat">
+            <div class="hero-stat-num">6+</div>
+            <div class="hero-stat-label">Years</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">50K</div>
+            <div class="hero-stat-label">Guests</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">50+</div>
+            <div class="hero-stat-label">Team</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="hero-bottom">
+    <div class="container">
+      <div class="slide-dots" id="slideDots">
+        <button class="slide-dot active" data-index="0"></button>
+        <button class="slide-dot" data-index="1"></button>
+        <button class="slide-dot" data-index="2"></button>
+      </div>
+      <a href="#about" class="hero-scroll-hint">
+        <span class="scroll-line"></span>
+        Scroll Down
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TICKER ─── -->
+<div class="ticker-band" role="marquee" aria-label="Site highlights">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="ticker-dot"></span> Premium Aaraniko Coffee</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Barista Training Academy</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Open Daily 6AM – 8PM</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Chautara, Sindhupalchowk</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Single Origin Selections</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Crafted with Passion, Served with Pride</span>
+    <!-- Duplicate for seamless infinite loop -->
+    <span class="ticker-item" aria-hidden="true"><span class="ticker-dot"></span> Premium Aaraniko Coffee</span>
+    <span class="ticker-item" aria-hidden="true"><span class="ticker-dot"></span> Barista Training Academy</span>
+    <span class="ticker-item" aria-hidden="true"><span class="ticker-dot"></span> Open Daily 6AM – 8PM</span>
+    <span class="ticker-item" aria-hidden="true"><span class="ticker-dot"></span> Chautara, Sindhupalchowk</span>
+    <span class="ticker-item" aria-hidden="true"><span class="ticker-dot"></span> Single Origin Selections</span>
+    <span class="ticker-item" aria-hidden="true"><span class="ticker-dot"></span> Crafted with Passion, Served with Pride</span>
+  </div>
+</div>
+
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal">
+        <div class="about-img-frame">
+          <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&q=85" alt="Aaraniko Coffee Interior" loading="lazy">
+        </div>
+        <div class="about-accent">
+          <div class="about-accent-num">6+</div>
+          <div class="about-accent-label">Years of<br>Excellence</div>
+        </div>
+        <div class="about-img-dot">
+          <i class="fas fa-coffee"></i>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">Aaraniko <em>Excellence</em><br>Since 2017</h2>
+        <p class="section-body" style="margin-bottom:1.2rem;">
+          Since 2017, Aaraniko Coffee has been crafting more than beverages — we create authentic experiences through quality, passion, and genuine connection. Over 6+ years, we've built our reputation on excellence, innovation, and an unwavering commitment to our coffee-loving community.
+        </p>
+        <p class="section-body">
+          From carefully sourcing premium beans to mastering traditional and contemporary brewing techniques, every cup delivers exceptional quality. Our experienced team brings warmth, expertise, and pride to every interaction, creating unforgettable coffee moments.
+        </p>
+        <div class="about-stats-row">
+          <div class="about-stat-box">
+            <i class="fas fa-users"></i>
+            <div class="num"><span class="count-num" data-target="50" data-suffix="+">50+</span></div>
+            <div class="lbl">Team Members</div>
+          </div>
+          <div class="about-stat-box">
+            <i class="fas fa-heart"></i>
+            <div class="num"><span class="count-num" data-target="50000" data-suffix="K+" data-divisor="1000">50K+</span></div>
+            <div class="lbl">Happy Customers</div>
+          </div>
+        </div>
+        <a href="#coffee" class="training-link" style="font-size:0.95rem;">
+          Explore Our Menu <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MENU / COFFEE ─── -->
+<section id="coffee">
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="menu-header">
+      <div>
+        <div class="section-label">Our Menu</div>
+        <h2 class="section-title" style="color:white;margin-bottom:0;">Signature <em style="color:var(--gold2);">Selection</em></h2>
+      </div>
+      <div class="menu-filter-tabs" id="menuFilters">
+        <button class="filter-tab active" data-filter="all">All</button>
+        <button class="filter-tab" data-filter="hot">Hot</button>
+        <button class="filter-tab" data-filter="cold">Cold</button>
+        <button class="filter-tab" data-filter="specialty">Specialty</button>
+      </div>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+
+      <div class="menu-card reveal" data-category="hot specialty">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=600&q=85" alt="Espresso" loading="lazy">
+        </div>
+        <div class="menu-card-overlay">
+          <button class="overlay-btn">Order Now</button>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-top">
+            <div class="menu-card-name">Classic Espresso</div>
+            <div class="menu-card-price">Rs. 120</div>
+          </div>
+          <p class="menu-card-desc">Rich, bold, and intense. Our signature double shot extracted to perfection with a golden crema.</p>
+          <div class="menu-card-meta"><i class="fas fa-fire"></i> Hot &nbsp;·&nbsp; Strong &nbsp;·&nbsp; 60ml</div>
+        </div>
+      </div>
+
+      <div class="menu-card reveal reveal-delay-1" data-category="hot">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&q=85" alt="Cappuccino" loading="lazy">
+        </div>
+        <div class="menu-card-overlay">
+          <button class="overlay-btn">Order Now</button>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-top">
+            <div class="menu-card-name">Aaraniko Cappuccino</div>
+            <div class="menu-card-price">Rs. 180</div>
+          </div>
+          <p class="menu-card-desc">Perfect balance of espresso, steamed milk, and silky foam. Topped with cocoa dusting.</p>
+          <div class="menu-card-meta"><i class="fas fa-mug-hot"></i> Hot &nbsp;·&nbsp; Medium &nbsp;·&nbsp; 180ml</div>
+        </div>
+      </div>
+
+      <div class="menu-card reveal reveal-delay-2" data-category="hot cold">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=85" alt="Vanilla Latte" loading="lazy">
+        </div>
+        <div class="menu-card-overlay">
+          <button class="overlay-btn">Order Now</button>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-top">
+            <div class="menu-card-name">Vanilla Latte</div>
+            <div class="menu-card-price">Rs. 200</div>
+          </div>
+          <p class="menu-card-desc">Smooth espresso with steamed milk and Madagascar vanilla. Artfully crafted latte art.</p>
+          <div class="menu-card-meta"><i class="fas fa-leaf"></i> Hot/Cold &nbsp;·&nbsp; Mild &nbsp;·&nbsp; 240ml</div>
+        </div>
+      </div>
+
+      <div class="menu-card reveal" data-category="cold specialty">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1517701604999-eb89a830cc37?w=600&q=85" alt="Orange Cold Brew" loading="lazy">
+          <div class="menu-card-badge">Signature</div>
+        </div>
+        <div class="menu-card-overlay">
+          <button class="overlay-btn">Order Now</button>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-top">
+            <div class="menu-card-name">Orange Cold Brew</div>
+            <div class="menu-card-price">Rs. 220</div>
+          </div>
+          <p class="menu-card-desc">Steeped 18 hours with a citrus-orange twist — smooth, low-acid, and refreshingly vibrant. Served over ice.</p>
+          <div class="menu-card-meta"><i class="fas fa-snowflake"></i> Cold &nbsp;·&nbsp; Smooth &nbsp;·&nbsp; 350ml</div>
+        </div>
+      </div>
+
+      <div class="menu-card reveal reveal-delay-1" data-category="hot cold">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=600&q=85" alt="Mocha" loading="lazy">
+        </div>
+        <div class="menu-card-overlay">
+          <button class="overlay-btn">Order Now</button>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-top">
+            <div class="menu-card-name">Aaraniko Mocha</div>
+            <div class="menu-card-price">Rs. 210</div>
+          </div>
+          <p class="menu-card-desc">Espresso meets rich chocolate and steamed milk. Topped with whipped cream.</p>
+          <div class="menu-card-meta"><i class="fas fa-candy-cane"></i> Hot/Cold &nbsp;·&nbsp; Sweet &nbsp;·&nbsp; 240ml</div>
+        </div>
+      </div>
+
+      <div class="menu-card reveal reveal-delay-2" data-category="specialty">
+        <div class="menu-card-img">
+          <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=600&q=85" alt="Pour Over" loading="lazy">
+          <div class="menu-card-badge">Single Origin</div>
+        </div>
+        <div class="menu-card-overlay">
+          <button class="overlay-btn">Order Now</button>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-top">
+            <div class="menu-card-name">Pour Over</div>
+            <div class="menu-card-price">Rs. 250</div>
+          </div>
+          <p class="menu-card-desc">Hand-poured Ethiopian Yirgacheffe. Floral notes with bergamot and citrus finish.</p>
+          <div class="menu-card-meta"><i class="fas fa-hand-holding-water"></i> Hot &nbsp;·&nbsp; Complex &nbsp;·&nbsp; 300ml</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOCATION ─── -->
+<section id="locations">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:4rem;" class="reveal">
+      <div class="section-label" style="justify-content:center;">Find Us</div>
+      <h2 class="section-title">Our <em>Location</em></h2>
+      <p class="section-body" style="max-width:560px;margin:0 auto;">
+        Come experience Aaraniko coffee culture nestled in the scenic mountains of Sindhupalchowk.
+      </p>
+    </div>
+    <div class="location-card reveal">
+      <div class="location-img-pane">
+        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85" alt="New Araniko Resort" loading="lazy">
+        <div class="location-img-overlay"></div>
+        <div class="location-img-badge"><i class="fas fa-mountain"></i> Sindhupalchowk</div>
+      </div>
+      <div class="location-info-pane">
+        <div class="section-label">Flagship Location</div>
+        <h3 class="loc-name">New Araniko Resort (P) Ltd</h3>
+        <p class="loc-sub">Chautara, Sindhupalchowk</p>
+        <div class="loc-details">
+          <div class="loc-row">
+            <div class="loc-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="loc-row-label">Address</div>
+              <div class="loc-row-val">Chautara 45306, Sindhupalchowk<br>Bagmati Province, Nepal</div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <div class="loc-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <div class="loc-row-label">Phone</div>
+              <div class="loc-row-val"><a href="tel:9851182293">9851182293</a></div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <div class="loc-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="loc-row-label">Email</div>
+              <div class="loc-row-val"><a href="mailto:aadijung089@gmail.com">aadijung089@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="loc-row">
+            <div class="loc-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="loc-row-label">Hours</div>
+              <div class="loc-row-val">Daily &nbsp;·&nbsp; 6:00 AM – 8:00 PM</div>
+            </div>
+          </div>
+        </div>
+        <div class="loc-cta-row">
+          <a href="https://www.google.com/maps/search/?api=1&query=New+Araniko+Resort+Chautara+Sindhupalchowk+Nepal" target="_blank" class="btn-solid">
+            <i class="fas fa-directions"></i> Directions
+          </a>
+          <a href="tel:9851182293" class="btn-outline">
+            <i class="fas fa-phone"></i> Call Us
+          </a>
+        </div>
+      </div>
+      <div class="map-wrap">
+        <iframe
+          src="https://maps.google.com/maps?q=New+Araniko+Resort+Chautara+Sindhupalchowk+Nepal&t=&z=14&ie=UTF8&iwloc=&output=embed"
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="New Araniko Resort on Google Maps">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRAINING ─── -->
+<section id="training">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:0;" class="reveal">
+      <div class="section-label" style="justify-content:center;">Professional Development</div>
+      <h2 class="section-title">Coffee <em>Academy</em></h2>
+      <p class="section-body" style="max-width:560px;margin:0 auto;">
+        Learn from the best. Our programs are designed for aspiring baristas and coffee enthusiasts.
+      </p>
+    </div>
+    <div class="training-grid">
+      <div class="training-card reveal">
+        <div class="training-icon"><i class="fas fa-coffee"></i></div>
+        <h3 class="training-title">Barista Training</h3>
+        <p class="training-desc">Master espresso extraction, milk steaming, and latte art. From basics to advanced competition-level techniques.</p>
+        <ul class="training-features">
+          <li><i class="fas fa-check-circle"></i> 4-week intensive program</li>
+          <li><i class="fas fa-check-circle"></i> Hands-on equipment training</li>
+          <li><i class="fas fa-check-circle"></i> Certification included</li>
+        </ul>
+        <a href="#contact" class="training-link">Learn More <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="training-card reveal reveal-delay-2">
+        <div class="training-icon"><i class="fas fa-bread-slice"></i></div>
+        <h3 class="training-title">Bakery Training</h3>
+        <p class="training-desc">Create perfect pastries that pair with coffee. From croissants to cakes, master professional baking techniques.</p>
+        <ul class="training-features">
+          <li><i class="fas fa-check-circle"></i> 6-week comprehensive course</li>
+          <li><i class="fas fa-check-circle"></i> French &amp; Italian techniques</li>
+          <li><i class="fas fa-check-circle"></i> Business management module</li>
+        </ul>
+        <a href="#contact" class="training-link">Learn More <i class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="training-card reveal reveal-delay-4">
+        <div class="training-icon"><i class="fas fa-users"></i></div>
+        <h3 class="training-title">Workshops</h3>
+        <p class="training-desc">Weekend sessions for coffee lovers. Brewing methods, coffee tasting, and home barista skills in a relaxed setting.</p>
+        <ul class="training-features">
+          <li><i class="fas fa-check-circle"></i> 1-day weekend sessions</li>
+          <li><i class="fas fa-check-circle"></i> Take-home brewing kit</li>
+          <li><i class="fas fa-check-circle"></i> Perfect for beginners</li>
+        </ul>
+        <a href="#contact" class="training-link">Learn More <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CAREERS ─── -->
+<section id="careers">
+  <div class="container">
+    <div class="careers-inner">
+      <div class="reveal">
+        <div class="section-label">Join the Team</div>
+        <h2 class="section-title" style="color:white;">Be Part of<br>Our <em style="color:var(--gold2);">Story</em></h2>
+        <p class="careers-body">
+          Be part of Nepal's coffee revolution. We're looking for passionate individuals who love coffee and people. Grow your career with comprehensive training, competitive benefits, and a culture that values excellence.
+        </p>
+        <div class="careers-actions">
+          <a href="#contact" class="btn-primary" style="font-size:0.9rem;">
+            <i class="fas fa-briefcase"></i> View Positions
+          </a>
+          <a href="mailto:aadijung089@gmail.com?subject=CV Submission - Aaraniko Coffee" class="btn-ghost" style="font-size:0.9rem;">
+            <i class="fas fa-paper-plane"></i> Submit CV
+          </a>
+        </div>
+      </div>
+      <div class="roles-list reveal reveal-delay-2">
+        <div class="role-item">
+          <div>
+            <div class="role-name">Senior Barista</div>
+            <div class="role-dept">Coffee Operations</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="role-badge">Open</span>
+            <span class="role-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div>
+            <div class="role-name">Store Manager</div>
+            <div class="role-dept">Management</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="role-badge">Open</span>
+            <span class="role-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div>
+            <div class="role-name">Coffee Trainer</div>
+            <div class="role-dept">Academy</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="role-badge">Open</span>
+            <span class="role-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+        <div class="role-item">
+          <div>
+            <div class="role-name">Marketing Specialist</div>
+            <div class="role-dept">Brand &amp; Growth</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="role-badge">Open</span>
+            <span class="role-arrow"><i class="fas fa-arrow-right"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="section-label">Get In Touch</div>
+        <h2 class="contact-info-title">Let's Talk<br><span class="contact-info-em">Coffee</span></h2>
+        <p class="contact-info-body">
+          Questions about our coffee, training programs, or partnership opportunities? We'd love to hear from you.
+        </p>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <div class="contact-item-label">Phone</div>
+              <div class="contact-item-val"><a href="tel:9851182293">9851182293</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-val"><a href="mailto:aadijung089@gmail.com">aadijung089@gmail.com</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="contact-item-label">Head Office</div>
+              <div class="contact-item-val">Sindhupalchowk,Chautara 44600, Nepal</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="contact-item-label">Hours</div>
+              <div class="contact-item-val">Daily &nbsp;·&nbsp; 6:00 AM – 8:00 PM</div>
+            </div>
+          </div>
+        </div>
+        <div class="socials">
+          <a href="https://wa.me/9779851182293" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="WhatsApp" style="background:#25D366;"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="contact-form-wrap reveal reveal-delay-2">
+        <h3 class="form-title">Send a Message</h3>
+        <form id="contactForm">
+          <div class="form-row" style="margin-bottom:1.2rem;">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="john@example.com" required>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:1.2rem;">
+            <label>Subject</label>
+            <select>
+              <option>General Inquiry</option>
+              <option>Franchising</option>
+              <option>Training Programs</option>
+              <option>Careers</option>
+              <option>Feedback</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="How can we help you?" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <span>Send Message</span>
+            <span><i class="fas fa-paper-plane"></i></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="logo/656953800_1245859107528001_7635500547030688865_n.jpg" alt="Logo" class="footer-brand-img">
+          <div>
+            <div class="footer-brand-name">New Araniko</div>
+            <div class="footer-brand-sub">Resort &amp; Coffee</div>
+          </div>
+        </div>
+        <p class="footer-desc">Nepal's premier coffee brand since 1999. Bringing world-class coffee culture to the heart of the Himalayas.</p>
+        <div class="socials">
+          <a href="#" class="social-btn" style="width:36px;height:36px;font-size:0.8rem;background:rgba(255,255,255,0.07);"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn" style="width:36px;height:36px;font-size:0.8rem;background:rgba(255,255,255,0.07);"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn" style="width:36px;height:36px;font-size:0.8rem;background:rgba(255,255,255,0.07);"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#coffee">Our Menu</a></li>
+          <li><a href="#locations">Location</a></li>
+          <li><a href="#training">Training</a></li>
+          <li><a href="#careers">Careers</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="tel:9851182293"><i class="fas fa-phone" style="color:var(--gold);font-size:0.7rem;"></i> 9851182293</a></li>
+          <li><a href="mailto:aadijung089@gmail.com" style="word-break:break-all;"><i class="fas fa-envelope" style="color:var(--gold);font-size:0.7rem;"></i> aadijung089@gmail.com</a></li>
+          <li style="color:rgba(255,255,255,0.4);font-size:0.88rem;line-height:1.6;"><i class="fas fa-map-marker-alt" style="color:var(--gold);font-size:0.7rem;margin-right:0.3rem;"></i> Chautara 45306,<br>&nbsp;&nbsp;&nbsp;Sindhupalchowk, Nepal</li>
+          <li style="color:rgba(255,255,255,0.4);font-size:0.88rem;"><i class="fas fa-clock" style="color:var(--gold);font-size:0.7rem;margin-right:0.3rem;"></i> 6:00 AM – 8:00 PM Daily</li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Newsletter</div>
+        <p style="font-size:0.88rem;color:rgba(255,255,255,0.4);line-height:1.7;margin-bottom:1.2rem;">Subscribe for seasonal drinks, offers, and news.</p>
+        <div class="footer-newsletter">
+          <input type="email" placeholder="Your email address">
+          <button>Subscribe</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 New Araniko Resort (P) Ltd. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/9779851182293" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- ─── SCRIPTS ─── -->
+<script>
+  /* ── Custom Cursor ── */
+  const dot  = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button, .menu-card, .role-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.transform = 'translate(-50%, -50%) scale(1.8)';
+      ring.style.borderColor = 'rgba(200,168,75,0.7)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.borderColor = 'rgba(200,168,75,0.5)';
+    });
+  });
+  // Hide cursor on touch devices
+  if ('ontouchstart' in window) {
+    dot.style.display = 'none';
+    ring.style.display = 'none';
+  }
+
+  /* ── Navbar ── */
+  const navbar = document.getElementById('navbar');
+  const navBrandText = document.getElementById('navBrandText');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      navbar.classList.add('scrolled');
+      navBrandText.style.display = 'flex';
+    } else {
+      navbar.classList.remove('scrolled');
+      navBrandText.style.display = 'none';
+    }
+  }, { passive: true });
+
+  /* ── Mobile Menu ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  /* ── Hero Slider ── */
+  const slides = document.querySelectorAll('.hero-slide');
+  const slideDots = document.querySelectorAll('.slide-dot');
+  let cur = 0, timer;
+  function goTo(i) {
+    slides[cur].classList.remove('active');
+    slideDots[cur].classList.remove('active');
+    cur = (i + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    slideDots[cur].classList.add('active');
+  }
+  function next() { goTo(cur + 1); }
+  function startTimer() { clearInterval(timer); timer = setInterval(next, 6000); }
+  document.getElementById('heroPrev').addEventListener('click', () => { goTo(cur - 1); startTimer(); });
+  document.getElementById('heroNext').addEventListener('click', () => { goTo(cur + 1); startTimer(); });
+  slideDots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); startTimer(); }));
+  startTimer();
+
+  /* ── Hero Touch / Swipe ── */
+  (function() {
+    const heroEl = document.getElementById('hero');
+    let touchStartX = 0, touchStartY = 0;
+    heroEl.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].clientX;
+      touchStartY = e.changedTouches[0].clientY;
+    }, { passive: true });
+    heroEl.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+        dx < 0 ? goTo(cur + 1) : goTo(cur - 1);
+        startTimer();
+      }
+    }, { passive: true });
+  })();
+
+  /* ── Smooth Scroll ── */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const top = target.getBoundingClientRect().top + window.scrollY - navbar.offsetHeight;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  /* ── Scroll Reveal ── */
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* ── Menu Filter ── */
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      document.querySelectorAll('.menu-card').forEach(card => {
+        const cats = card.dataset.category || '';
+        if (filter === 'all' || cats.includes(filter)) {
+          card.style.display = '';
+          card.style.animation = 'fadeInCard 0.4s ease forwards';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  /* ── Contact Form ── */
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.innerHTML = '<span><i class="fas fa-spinner fa-spin"></i> Sending…</span>';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = '<span><i class="fas fa-check"></i> Message Sent!</span>';
+      btn.style.background = '#2e7d32';
+      setTimeout(() => {
+        btn.innerHTML = '<span>Send Message</span><span><i class="fas fa-paper-plane"></i></span>';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 2000);
+    }, 1400);
+  });
+
+  /* ── Number Counter Animation ── */
+  (function() {
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+    function animateCount(el) {
+      const target  = +el.dataset.target  || 0;
+      const divisor = +el.dataset.divisor || 1;
+      const suffix  = el.dataset.suffix   || '';
+      const duration = 1800;
+      const start = performance.now();
+      function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const val = Math.round(easeOutQuart(progress) * target / divisor);
+        el.textContent = val + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = Math.round(target / divisor) + suffix;
+      }
+      requestAnimationFrame(step);
+    }
+    const counterIO = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          counterIO.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.count-num').forEach(el => counterIO.observe(el));
+  })();
+
+  /* ── Back to Top ── */
+  const btt = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ── Parallax hero ── */
+  window.addEventListener('scroll', () => {
+    const h = document.getElementById('hero').offsetHeight;
+    if (window.scrollY < h) {
+      document.querySelectorAll('.hero-slide img').forEach(img => {
+        img.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+      });
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>
